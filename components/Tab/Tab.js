@@ -1,18 +1,22 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 import s from './TabStyle';
 
-export default class Tab extends React.Component{
-
-
+export default class Tab extends React.Component {
   render() {
-    const { children } = this.props;
+    const { children, style, active } = this.props;
 
-    return(
-      <View style={s.wrap}>
-        {children}
-      </View>
+    return (
+      <TouchableOpacity
+        onPress={this.props.onPress}
+        activeOpacity={1}
+        style={style}
+      >
+        <View style={active ? { ...s.wrap, ...s.wrapActive } : s.wrap}>
+          {children}
+        </View>
+      </TouchableOpacity>
     );
   }
 }

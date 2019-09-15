@@ -49,8 +49,8 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
   },
   icon: {
-    width: 40,
-    height: 40,
-    // backgroundColor: 'red',
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
   }
 });
