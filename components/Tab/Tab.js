@@ -15,7 +15,7 @@ export default class Tab extends React.Component {
 
     this.setState({
       bgAnim: new Animated.Value(active ? 1 : 0),
-      scaleVal: new Animated.Value(active ? 1.01 : 1),
+      scaleVal: new Animated.Value(active ? 1.02 : 1),
     });
   }
 
@@ -25,7 +25,7 @@ export default class Tab extends React.Component {
     Animated.timing(
       this.state.scaleVal,
       {
-        toValue: active ? 1 : 1.01,
+        toValue: active ? 1 : 1.02,
         duration: 50,
       }
     ).start(() => {

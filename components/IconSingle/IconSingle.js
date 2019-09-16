@@ -19,6 +19,8 @@ const icons = {
   qrcode,
   lock,
   moon,
+  lock2: lock,
+  moon2: moon,
   flash2: flash,
   camera2: camera,
   timer2: timer,
