@@ -47,10 +47,5 @@ export default StyleSheet.create({
     height: (dWidth - 45) / 2,
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
   }
 });

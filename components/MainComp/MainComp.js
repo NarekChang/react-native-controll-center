@@ -10,17 +10,10 @@ import {
 
 import { rows } from '../../api/api';
 import Tab from '../Tab';
+import IconSingle from '../IconSingle';
 import s from './MainCompStyle';
 
 import bg from './images/bg.jpg';
-import flash from '../../icons/flashlight.off.fill.png';
-import camera from '../../icons/camera.fill.png';
-import qrcode from '../../icons/qrcode.png';
-import timer from '../../icons/timer.png';
-// import timer from '../../icons/timer.png';
-// import timer from '../../icons/timer.png';
-
-const icons = { flash, camera, timer, qrcode };
 
 export default class MainComp extends React.Component {
   state = {
@@ -39,7 +32,7 @@ export default class MainComp extends React.Component {
     return (
       <View style={s.wrap}>
         <StatusBar barStyle="dark-content" hidden={true} />
-        
+
         <Image
           source={bg}
           style={s.bg}
@@ -64,13 +57,13 @@ export default class MainComp extends React.Component {
               rows[1] && rows[1].map((item) => (
                 <Tab
                   style={s.grid_1_1}
-                  key={`Row3Item_${item}`}
+                  key={`Row2Item_${item}`}
                   active={this.state[item]}
                   onPress={() => this.switchItem(item)}
                 >
-                  <Image
-                    style={s.icon}
-                    source={icons[item]}
+                  <IconSingle
+                    item={item}
+                    value={this.state[item]}
                   />
                 </Tab>
               ))
@@ -97,9 +90,9 @@ export default class MainComp extends React.Component {
                 active={this.state[item]}
                 onPress={() => this.switchItem(item)}
               >
-                <Image
-                  style={s.icon}
-                  source={icons[item]}
+                <IconSingle
+                  item={item}
+                  value={this.state[item]}
                 />
               </Tab>
             ))
