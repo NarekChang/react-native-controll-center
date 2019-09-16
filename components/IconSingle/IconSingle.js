@@ -23,7 +23,7 @@ const icons = {
   camera2: camera,
   timer2: timer,
   qrcode2: qrcode
- };
+};
 
 export default (props) => {
   const {
@@ -31,7 +31,7 @@ export default (props) => {
     value,
     customStyle,
     defaultColor = '#fff',
-    activeColor = '#40a1f5'
+    activeColor = 'rgba(10, 132, 255, 1)'
   } = props;
 
   return (

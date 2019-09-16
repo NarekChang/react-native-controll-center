@@ -6,7 +6,8 @@ import s from './TabStyle';
 export default class Tab extends React.Component {
 
   state = {
-    bgAnim: null,
+    bgAnim: 0,
+    scaleVal: 1,
   }
 
   componentDidMount() {
@@ -14,6 +15,7 @@ export default class Tab extends React.Component {
 
     this.setState({
       bgAnim: new Animated.Value(active ? 1 : 0),
+      scaleVal: new Animated.Value(active ? 1.01 : 1),
     });
   }
 
@@ -21,19 +23,27 @@ export default class Tab extends React.Component {
     const { active } = this.props;
 
     Animated.timing(
-      this.state.bgAnim,
+      this.state.scaleVal,
       {
-        toValue: active ? 0 : 1,
-        duration: 200,
+        toValue: active ? 1 : 1.01,
+        duration: 50,
       }
-    ).start();
-    this.props.onPress();
+    ).start(() => {
+      Animated.timing(
+        this.state.bgAnim,
+        {
+          toValue: active ? 0 : 1,
+          duration: 200,
+        }
+      ).start();
+      this.props.onPress();
+    });
   }
 
   render() {
     const { children, style, active } = this.props;
-    const { bgAnim } = this.state;
-    
+    const { bgAnim, scaleVal } = this.state;
+
     return (
       <TouchableOpacity
         onLongPress={this.props.onLongPress}
@@ -41,11 +51,12 @@ export default class Tab extends React.Component {
         activeOpacity={1}
         style={style}
       >
-        <View style={s.wrap}>
+        <Animated.View style={{ ...s.wrap, transform: [{ scaleX: scaleVal }, { scaleY: scaleVal}]}}>
           <Animated.View style={{ ...s.wrapBg, opacity: bgAnim }} />
-          {children}
-        </View>
-      </TouchableOpacity>
+
+        {children}
+        </Animated.View>
+      </TouchableOpacity >
     );
   }
 }

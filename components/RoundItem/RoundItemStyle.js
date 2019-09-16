@@ -20,8 +20,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    width: 56,
-    height: 56,
+    width: 51,
+    height: 51,
     borderRadius: 40,
     backgroundColor: 'rgba(255,255,255,.2)'
   },
