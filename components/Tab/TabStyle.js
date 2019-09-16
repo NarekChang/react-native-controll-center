@@ -7,7 +7,10 @@ export default StyleSheet.create({
     borderRadius: 22,
     backgroundColor: 'rgba(0,0,0,.6)',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   wrapBg: {
     position: 'absolute',

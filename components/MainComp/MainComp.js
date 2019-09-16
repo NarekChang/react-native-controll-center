@@ -5,19 +5,32 @@ import {
   Image,
   View,
   TouchableOpacity,
-  Alert
+  Animated
 } from 'react-native';
 
 import { rows } from '../../api/api';
+import s from './MainCompStyle';
+
 import Tab from '../Tab';
 import IconSingle from '../IconSingle';
-import s from './MainCompStyle';
+import RoundItem from '../RoundItem';
 
 import bg from './images/bg.jpg';
 
+const { Value } = Animated;
+
 export default class MainComp extends React.Component {
   state = {
-
+    lock: true,
+    moon: false,
+    flash: false,
+    camera: false,
+    timer: false,
+    qrcode: false,
+    flash2: false,
+    camera2: false,
+    timer2: false,
+    qrcode2: true
   }
 
   switchItem = (item) => {
@@ -32,7 +45,6 @@ export default class MainComp extends React.Component {
     return (
       <View style={s.wrap}>
         <StatusBar barStyle="dark-content" hidden={true} />
-
         <Image
           source={bg}
           style={s.bg}
@@ -40,12 +52,17 @@ export default class MainComp extends React.Component {
         />
 
         <View style={s.container}>
-
           <Tab style={s.grid_2_2}>
-            <TouchableOpacity
-              onLongPress={() => {
-              }}
-              style={s.icon} />
+            {
+              rows[0] && rows[0].map((item) => (
+                <RoundItem
+                  key={`Row1Item_${item}`}
+                  active={this.state[item]}
+                  item={item}
+                  onPress={() => this.switchItem(item)}
+                />
+              ))
+            }
           </Tab>
 
           <Tab style={s.grid_2_2}>
@@ -89,6 +106,9 @@ export default class MainComp extends React.Component {
                 key={`Row3Item_${item}`}
                 active={this.state[item]}
                 onPress={() => this.switchItem(item)}
+                onLongPress={() => {
+
+                }}
               >
                 <IconSingle
                   item={item}

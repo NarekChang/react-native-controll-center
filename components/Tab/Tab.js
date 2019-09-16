@@ -6,7 +6,15 @@ import s from './TabStyle';
 export default class Tab extends React.Component {
 
   state = {
-    bgAnim: new Animated.Value(0),
+    bgAnim: null,
+  }
+
+  componentDidMount() {
+    const { active } = this.props;
+
+    this.setState({
+      bgAnim: new Animated.Value(active ? 1 : 0),
+    });
   }
 
   switch = () => {
@@ -28,9 +36,7 @@ export default class Tab extends React.Component {
     
     return (
       <TouchableOpacity
-        onLongPress={() => {
-          
-        }}
+        onLongPress={this.props.onLongPress}
         onPress={this.props.onPress && this.switch}
         activeOpacity={1}
         style={style}
