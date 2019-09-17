@@ -1,12 +1,15 @@
 import React from 'react';
-import {
+import ReactNative, {
   StatusBar,
   Text,
   Image,
   View,
   TouchableOpacity,
-  Animated
+  Animated,
+  NativeModules
 } from 'react-native';
+
+const { UIManager } = NativeModules;
 
 import { rows } from '../../api/api';
 import s from './MainCompStyle';
@@ -22,7 +25,9 @@ const { Value } = Animated;
 
 export default class MainComp extends React.Component {
   state = {
-    modalOpen: true,
+    modalOpen: false,
+    modalStartX: 0,
+    modalStartY: 0,
     someData: {
       lock: true,
       moon: false,
@@ -46,12 +51,38 @@ export default class MainComp extends React.Component {
     this.setState(newVal);
   }
 
-  toggleModal = () => {
-    this.setState({ modalOpen: !this.state.modalOpen })
+  toggleModal = async (res) => {
+    let x = 0;
+    let y = 0;
+
+    if (res) {
+      await UIManager.measureLayoutRelativeToParent(
+        ReactNative.findNodeHandle(this.containerBlock),
+        (e) => { console.error(e) },
+        (xP, yP) => {
+          UIManager.measureLayoutRelativeToParent(
+            ReactNative.findNodeHandle(this.controllBlock),
+            (e) => { console.error(e) },
+            (xC, yC) => {
+              x = xP + xC;
+              y = yP + yC;
+
+              this.setState({
+                modalStartY: y,
+                modalStartX: x,
+                modalOpen: !this.state.modalOpen,
+              });
+            });
+        });
+    } else {
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+      });
+    }
   };
 
   render() {
-    const { someData, modalOpen } = this.state;
+    const { someData, modalOpen, modalStartX, modalStartY } = this.state;
 
     return (
       <View style={s.wrap}>
@@ -62,84 +93,86 @@ export default class MainComp extends React.Component {
           blurRadius={40}
         />
 
-        {
-          !modalOpen && (
-            <View style={{ ...s.container, opacity: modalOpen ? 0 : 1 }}>
+        {!modalOpen && <View
+          style={s.container}
+          ref={(ref) => { this.containerBlock = ref; }}
+        >
+          <Tab
+            style={s.grid_2_2}
+            ref={(ref) => { this.controllBlock = ref; }}
+            onLongPress={this.toggleModal}
+          >
+            {
+              rows[0] && rows[0].map((item) => (
+                <RoundItem
+                  key={`Row1Item_${item}`}
+                  active={someData[item]}
+                  item={item}
+                  onPress={() => this.switchItem(item)}
+                  onLongPress={this.toggleModal}
+                />
+              ))
+            }
+          </Tab>
+
+          <Tab style={s.grid_2_2}>
+            <View style={s.icon} />
+          </Tab>
+
+          <View style={s.gridWrap_2_2}>
+            {
+              rows[1] && rows[1].map((item) => (
+                <Tab
+                  style={s.grid_1_1}
+                  key={`Row2Item_${item}`}
+                  active={someData[item]}
+                  onPress={() => this.switchItem(item)}
+                >
+                  <IconSingle
+                    item={item}
+                    activeColor={'rgba(255, 55, 95, 1)'}
+                    value={someData[item]}
+                  />
+                </Tab>
+              ))
+            }
+            <Tab style={s.grid_2_1}>
+              <View style={s.icon} />
+            </Tab>
+          </View>
+
+          <View style={s.gridWrap_2_2}>
+            <Tab style={s.grid_1_2}>
+              <View style={s.icon} />
+            </Tab>
+            <Tab style={s.grid_1_2}>
+              <View style={s.icon} />
+            </Tab>
+          </View>
+
+          {
+            rows[2] && rows[2].map((item) => (
               <Tab
-                style={s.grid_2_2}
-                onLongPress={this.toggleModal}
+                style={s.grid_1_1}
+                key={`Row3Item_${item}`}
+                active={someData[item]}
+                onPress={() => this.switchItem(item)}
               >
-                {
-                  rows[0] && rows[0].map((item) => (
-                    <RoundItem
-                      key={`Row1Item_${item}`}
-                      active={someData[item]}
-                      item={item}
-                      onPress={() => this.switchItem(item)}
-                      onLongPress={this.toggleModal}
-                    />
-                  ))
-                }
+                <IconSingle
+                  item={item}
+                  value={someData[item]}
+                />
               </Tab>
-
-              <Tab style={s.grid_2_2}>
-                <View style={s.icon} />
-              </Tab>
-
-              <View style={s.gridWrap_2_2}>
-                {
-                  rows[1] && rows[1].map((item) => (
-                    <Tab
-                      style={s.grid_1_1}
-                      key={`Row2Item_${item}`}
-                      active={someData[item]}
-                      onPress={() => this.switchItem(item)}
-                    >
-                      <IconSingle
-                        item={item}
-                        activeColor={'rgba(255, 55, 95, 1)'}
-                        value={someData[item]}
-                      />
-                    </Tab>
-                  ))
-                }
-                <Tab style={s.grid_2_1}>
-                  <View style={s.icon} />
-                </Tab>
-              </View>
-
-              <View style={s.gridWrap_2_2}>
-                <Tab style={s.grid_1_2}>
-                  <View style={s.icon} />
-                </Tab>
-                <Tab style={s.grid_1_2}>
-                  <View style={s.icon} />
-                </Tab>
-              </View>
-
-              {
-                rows[2] && rows[2].map((item) => (
-                  <Tab
-                    style={s.grid_1_1}
-                    key={`Row3Item_${item}`}
-                    active={someData[item]}
-                    onPress={() => this.switchItem(item)}
-                  >
-                    <IconSingle
-                      item={item}
-                      value={someData[item]}
-                    />
-                  </Tab>
-                ))
-              }
-            </View>
-          )
-        }
+            ))
+          }
+        </View>}
 
         <ModalBlock
           style={s.closeBg}
           toggleModal={this.toggleModal}
           modalOpen={modalOpen}
+          modalStartX={modalStartX}
+          modalStartY={modalStartY}
           someData={someData}
           switchItem={this.switchItem}
         />

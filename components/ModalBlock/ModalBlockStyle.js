@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+const dWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   wrap: {
@@ -19,31 +20,35 @@ export default StyleSheet.create({
     height: '100%',
   },
   modal: {
-    paddingTop: 40,
-    paddingBottom: 20,
-    borderRadius: 40,
-    width: '100%',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    margin: 0,
+    padding: 7.5,
+    borderRadius: 20,
     backgroundColor: 'rgba(0,0,0,.6)',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden'
   },
   item: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: '44%',
-    paddingBottom: 20,
+    width: '48%',
   },
   itemTitle: {
     marginTop: 6,
     fontSize: 11,
     color: '#fff',
     fontWeight: '600',
+    textAlign: 'center'
   },
   itemVal: {
     fontSize: 10,
     color: '#fff',
     fontWeight: '400',
+    textAlign: 'center'
   },
 });

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-const dWidth = Dimensions.get('screen').width;
+const dWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   bg: {
