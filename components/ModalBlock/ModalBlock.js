@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Animated, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Text, Animated, Dimensions, Image } from 'react-native';
 const dHeight = Dimensions.get('window').height;
 const dWidth = Dimensions.get('window').width;
 
 import s from './ModalBlockStyle';
 import { rows } from '../../api/api';
+
 
 import RoundItem from '../RoundItem';
 

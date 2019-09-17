@@ -21,8 +21,6 @@ import ModalBlock from '../ModalBlock';
 
 import bg from './images/bg.jpg';
 
-const { Value } = Animated;
-
 export default class MainComp extends React.Component {
   state = {
     modalOpen: false,
@@ -93,8 +91,11 @@ export default class MainComp extends React.Component {
           blurRadius={40}
         />
 
-        {!modalOpen && <View
-          style={s.container}
+        <View
+          style={{
+            ...s.container,
+            opacity: modalOpen ? 0 : 1
+          }}
           ref={(ref) => { this.containerBlock = ref; }}
         >
           <Tab
@@ -105,7 +106,7 @@ export default class MainComp extends React.Component {
             {
               rows[0] && rows[0].map((item) => (
                 <RoundItem
-                  key={`Row1Item_${item}`}
+                  key={`Row1Item_${item}_${someData[item]}`}
                   active={someData[item]}
                   item={item}
                   onPress={() => this.switchItem(item)}
@@ -124,7 +125,7 @@ export default class MainComp extends React.Component {
               rows[1] && rows[1].map((item) => (
                 <Tab
                   style={s.grid_1_1}
-                  key={`Row2Item_${item}`}
+                  key={`Row2Item_${item}_${someData[item]}`}
                   active={someData[item]}
                   onPress={() => this.switchItem(item)}
                 >
@@ -154,7 +155,7 @@ export default class MainComp extends React.Component {
             rows[2] && rows[2].map((item) => (
               <Tab
                 style={s.grid_1_1}
-                key={`Row3Item_${item}`}
+                key={`Row3Item_${item}_${someData[item]}`}
                 active={someData[item]}
                 onPress={() => this.switchItem(item)}
               >
@@ -165,7 +166,7 @@ export default class MainComp extends React.Component {
               </Tab>
             ))
           }
-        </View>}
+        </View>
 
         <ModalBlock
           style={s.closeBg}
